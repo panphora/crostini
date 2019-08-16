@@ -2,6 +2,10 @@
 
 ### A super simple toast notification
 
+```
+npm install crostini
+```
+
 ```javascript
 import crostini from 'crostini';
 
