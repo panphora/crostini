@@ -11,3 +11,10 @@ crostini("Can't save data on this page");
 // show an error notification
 crostini("Can't save data on this page", {type: "error"});
 ```
+
+
+
+### Original Project
+
+This library is based on a Pen by Pierre Smith: 
+https://codepen.io/kipp0/pen/pPNrrj
