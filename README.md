@@ -2,7 +2,7 @@
 
 ### A super simple toast notification
 
-```
+```javascript
 import crostini from 'crostini';
 
 // show a regular notification
