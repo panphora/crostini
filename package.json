@@ -1,10 +1,10 @@
 {
   "name": "crostini",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/panphora/crostini.git"
+    "type": "git",
+    "url": "https://github.com/panphora/crostini.git"
   },
   "main": "index.js",
   "scripts": {},
