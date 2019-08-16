@@ -74,6 +74,32 @@ let crostiniStyles = `
   animation: fadein 0.5s, expand 0.5s 0.5s, stay 5s 1s, shrink 0.5s 6s, fadeout 0.5s 6.5s;
 }
 
+/* ERROR STYLES */
+
+.crostini.crostini--error {
+  background-color: #c41f33;
+}
+
+.crostini.crostini--error .crostini__close-icon {
+  background-color: #b50a1e;
+}
+
+.crostini.crostini--error .crostini__close-icon:hover {
+  background-color: #9d091a;
+}
+
+.crostini.crostini--error .crostini__close-icon:hover:before, .crostini.crostini--error .crostini__close-icon:hover:after {
+  opacity: 1;
+}
+
+.crostini.crostini--error .crostini__close-icon:before {
+  background-color: #fff;
+}
+
+.crostini.crostini--error .crostini__close-icon:after {
+  background-color: #fff;
+}
+
 @keyframes simpleFadein {
   0% {opacity: 0;}
   90% {opacity: 0;}
@@ -123,9 +149,14 @@ function crostini (msg, options) {
     return;
   }
 
+  let extraClasses = [];
+  if (options && options.type === "error") {
+    extraClasses.push("crostini--error");
+  }
+
   isCrostiniActivated = true;
 
-  let crostiniHtml = `<div class="crostini crostini--show"><div class="crostini__desc">${msg}</div><div class="crostini__close-icon"></div></div>`;
+  let crostiniHtml = `<div class="crostini crostini--show ${extraClasses.join(' ')}"><div class="crostini__desc">${msg}</div><div class="crostini__close-icon"></div></div>`;
   document.body.insertAdjacentHTML("beforeend", crostiniHtml);
   var crostiniElem = document.querySelector(".crostini");
 
@@ -159,11 +190,4 @@ function onAnimationEnd (event) {
 }
 
 export default crostini;
-
-
-
-
-
-
-
 
