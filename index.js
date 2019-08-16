@@ -1,3 +1,5 @@
+// setup
+let isCrostiniActivated = false;
 let crostiniStyles = `
 <style class="crostini-styles">
 .crostini {
@@ -60,9 +62,9 @@ let crostiniStyles = `
   animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 4s, fadeout 0.5s 4.5s;
 }
 
-/*.crostini__close-icon {
-  animation: simpleFadein 1s, simpleFadeout 1s 3.5s;
-}*/
+.crostini__close-icon {
+  animation: simpleFadein 1s, simpleFadeout 1.5s 3.5s;
+}
 
 @keyframes simpleFadein {
   0% {opacity: 0;}
@@ -71,8 +73,9 @@ let crostiniStyles = `
 }
 
 @keyframes simpleFadeout {
-  from {opacity: 1;}
-  to {opacity: 0;}
+  0% {opacity: 1;}
+  70% {opacity: 0;}
+  100% {opacity: 0;}
 }
 
 @keyframes fadein {
@@ -104,41 +107,47 @@ let crostiniStyles = `
 
 document.body.insertAdjacentHTML("beforeend", crostiniStyles);
 
-
-
-let isCrostiniActivated = false;
-
-function removeCrostiniElement () {
-  var crostiniElem = document.querySelector(".crostini");
-
-  if (crostiniElem) {
-    crostiniElem.parentElement.removeChild(crostiniElem);
+// main function:
+// pop up a toast notification
+function crostini (msg, options) {
+  // don't allow more than one toast notification at the same time
+  if (isCrostiniActivated) {
+    return;
   }
 
-  isCrostiniActivated = false;
+  isCrostiniActivated = true;
+
+  let crostiniHtml = `<div class="crostini crostini--show"><div class="crostini__close-icon"></div><div class="crostini__desc">${msg}</div></div>`;
+  document.body.insertAdjacentHTML("beforeend", crostiniHtml);
+  var crostiniElem = document.querySelector(".crostini");
+
+  crostiniElem.addEventListener("animationend", onAnimationEnd);
 }
 
+// crostini close button event listener
 document.body.addEventListener("click", function (event) {
   if (event.target.closest(".crostini__close-icon")) {
     removeCrostiniElement();
   }
 });
 
-let crostini = function (msg, options) {
-  if (isCrostiniActivated) {
-    return;
-  }
+// HELPERS
 
-  isCrostiniActivated = true;
-  let crostiniHtml = `<div class="crostini crostini--show"><div class="crostini__close-icon"></div><div class="crostini__desc">${msg}</div></div>`;
-  document.body.insertAdjacentHTML("beforeend", crostiniHtml);
+function removeCrostiniElement () {
   var crostiniElem = document.querySelector(".crostini");
 
-  crostiniElem.addEventListener("animationend", function(event) {
-    if (event.animationName === "fadeout") {
-      removeCrostiniElement();
-    }
-  });
+  if (crostiniElem) {
+    crostiniElem.parentElement.removeChild(crostiniElem);
+    crostiniElem.removeEventListener("animationend", onAnimationEnd);
+  }
+
+  isCrostiniActivated = false;
+}
+
+function onAnimationEnd (event) {
+  if (event.animationName === "fadeout") {
+    removeCrostiniElement();
+  }
 }
 
 export default crostini;
