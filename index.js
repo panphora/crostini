@@ -3,19 +3,20 @@ let isCrostiniActivated = false;
 let crostiniStyles = `
 <style class="crostini-styles">
 .crostini {
-  display: flex;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  right:0;
+  bottom: 30px;
   visibility: hidden;
-  max-width: 50px;
+  display: flex;
   height: 50px;
   margin: auto;
+  max-width: 50px;
   background-color: #333;
   color: #fff;
   text-align: center;
   border-radius: 2px;
-  position: fixed;
-  z-index: 1;
-  left: 0;right:0;
-  bottom: 30px;
   font-size: 17px;
   white-space: nowrap;
 }
@@ -24,8 +25,17 @@ let crostiniStyles = `
   position: relative;
   width: 50px;
   height: 50px;
+  margin-left: auto;
   cursor: pointer;
-  background-color: #111;
+  background-color: #222;
+}
+
+.crostini .crostini__close-icon:hover {
+  background-color: #000;
+}
+
+.crostini .crostini__close-icon:hover:before, .crostini .crostini__close-icon:hover:after {
+  background-color: #fff;
 }
 
 .crostini .crostini__close-icon:before {
@@ -59,11 +69,11 @@ let crostiniStyles = `
 
 .crostini.crostini--show {
   visibility: visible;
-  animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 4s, fadeout 0.5s 4.5s;
+  animation: fadein 0.5s, expand 0.5s 0.5s, stay 5s 1s, shrink 0.5s 6s, fadeout 0.5s 6.5s;
 }
 
 .crostini__close-icon {
-  animation: simpleFadein 1s, simpleFadeout 1.5s 3.5s;
+  animation: simpleFadein 1s, simpleFadeout 1.5s 5.5s;
 }
 
 @keyframes simpleFadein {
@@ -117,7 +127,7 @@ function crostini (msg, options) {
 
   isCrostiniActivated = true;
 
-  let crostiniHtml = `<div class="crostini crostini--show"><div class="crostini__close-icon"></div><div class="crostini__desc">${msg}</div></div>`;
+  let crostiniHtml = `<div class="crostini crostini--show"><div class="crostini__desc">${msg}</div><div class="crostini__close-icon"></div></div>`;
   document.body.insertAdjacentHTML("beforeend", crostiniHtml);
   var crostiniElem = document.querySelector(".crostini");
 
