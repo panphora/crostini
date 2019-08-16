@@ -12,6 +12,7 @@ crostini("Can't save data on this page");
 crostini("Can't save data on this page", {type: "error"});
 ```
 
+<img src="assets/crostini.png" width="420" height="260">
 
 
 ### Original Project
