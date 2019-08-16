@@ -28,6 +28,7 @@ let crostiniStyles = `
   margin-left: auto;
   cursor: pointer;
   background-color: #222;
+  animation: simpleFadein 1s, simpleFadeout 1.5s 5.5s;
 }
 
 .crostini .crostini__close-icon:hover {
@@ -61,19 +62,16 @@ let crostiniStyles = `
 }
 
 .crostini .crostini__desc {
-  color: #fff;
-  padding: 16px;
+  max-width: calc(100% - 50px);
   overflow: hidden;
   white-space: nowrap;
+  padding: 16px;
+  color: #fff;
 }
 
 .crostini.crostini--show {
   visibility: visible;
   animation: fadein 0.5s, expand 0.5s 0.5s, stay 5s 1s, shrink 0.5s 6s, fadeout 0.5s 6.5s;
-}
-
-.crostini__close-icon {
-  animation: simpleFadein 1s, simpleFadeout 1.5s 5.5s;
 }
 
 @keyframes simpleFadein {
@@ -95,16 +93,16 @@ let crostiniStyles = `
 
 @keyframes expand {
   from {min-width: 50px}
-  to {min-width: 350px}
+  to {min-width: 320px}
 }
 
 @keyframes stay {
-  from {min-width: 350px}
-  to {min-width: 350px}
+  from {min-width: 320px}
+  to {min-width: 320px}
 }
 
 @keyframes shrink {
-  from {min-width: 350px;} 
+  from {min-width: 320px;} 
   to {min-width: 50px;}
 }
 
