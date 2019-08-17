@@ -67,6 +67,7 @@ let crostiniStyles = `
   white-space: nowrap;
   padding: 16px;
   color: #fff;
+  animation: simpleFadein 1s;
 }
 
 .crostini.crostini--show {
