@@ -2,13 +2,22 @@
   "name": "crostini",
   "version": "1.0.3",
   "description": "",
+  "amdName": "crostini",
+  "source": "index.js",
+  "main": "dist/crostini.js",
+  "module": "dist/crostini.module.js",
+  "unpkg": "dist/crostini.umd.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/panphora/crostini.git"
   },
-  "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "build": "microbundle"
+  },
   "keywords": [],
-  "author": "",
-  "license": "SEE LICENSE IN LICENSE.md"
+  "author": "panphora",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "dependencies": {
+    "microbundle": "^0.12.4"
+  }
 }
