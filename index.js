@@ -13,12 +13,14 @@ let crostiniStyles = `
   height: 50px;
   margin: auto;
   max-width: 50px;
-  background-color: #333;
+  background-color: #222;
   color: #fff;
   text-align: center;
   border-radius: 2px;
-  font-size: 17px;
+  font-size: 18px;
+  font-weight: 500;
   white-space: nowrap;
+  line-height: 1;
 }
 
 .crostini .crostini__close-icon {
@@ -27,16 +29,12 @@ let crostiniStyles = `
   height: 50px;
   margin-left: auto;
   cursor: pointer;
-  background-color: #222;
+  border-left: 1px solid rgba(255,255,255,.18);
   animation: simpleFadein 1s, simpleFadeout 1.5s 5.5s;
 }
 
 .crostini .crostini__close-icon:hover {
-  background-color: #000;
-}
-
-.crostini .crostini__close-icon:hover:before, .crostini .crostini__close-icon:hover:after {
-  background-color: #fff;
+  background-color: rgba(255,255,255,.15);
 }
 
 .crostini .crostini__close-icon:before {
@@ -47,7 +45,7 @@ let crostiniStyles = `
   width: 26px;
   height: 2px;
   transform: rotate(-45deg);
-  background-color: #ddd;
+  background-color: rgba(255,255,255,.85);
 }
 
 .crostini .crostini__close-icon:after {
@@ -58,7 +56,11 @@ let crostiniStyles = `
   width: 26px;
   height: 2px;
   transform: rotate(45deg);
-  background-color: #ddd;
+  background-color: rgba(255,255,255,.85);
+}
+
+.crostini .crostini__close-icon:hover:before, .crostini .crostini__close-icon:hover:after {
+  background-color: #fff;
 }
 
 .crostini .crostini__desc {
@@ -120,16 +122,16 @@ let crostiniStyles = `
 
 @keyframes expand {
   from {min-width: 50px}
-  to {min-width: 320px}
+  to {min-width: 360px}
 }
 
 @keyframes stay {
-  from {min-width: 320px}
-  to {min-width: 320px}
+  from {min-width: 360px}
+  to {min-width: 360px}
 }
 
 @keyframes shrink {
-  from {min-width: 320px;} 
+  from {min-width: 360px;} 
   to {min-width: 50px;}
 }
 
