@@ -19,7 +19,7 @@ crostini("Can't save data on this page", {type: "error"});
 Or simply:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/crostini@1.1.0/dist/crostini.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/crostini@1.3.0/dist/crostini.umd.js"></script>
 ```
 
 <img src="assets/crostini.png" width="420" height="260">
