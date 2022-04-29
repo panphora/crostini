@@ -1,6 +1,6 @@
 // setup
-let isCrostiniActivated = false;
-let crostiniStyles = `
+var isCrostiniActivated = false;
+var crostiniStyles = `
 <style class="crostini-styles">
 .crostini {
   position: fixed;
@@ -30,7 +30,7 @@ let crostiniStyles = `
   margin-left: auto;
   cursor: pointer;
   border-left: 1px solid rgba(255,255,255,.18);
-  animation: simpleFadein 1s, simpleFadeout 1.5s 5.5s;
+  animation: crostiniSimpleFadein 1s, crostiniSimpleFadeout 1.5s 5.5s;
 }
 
 .crostini .crostini__close-icon:hover {
@@ -69,12 +69,12 @@ let crostiniStyles = `
   white-space: nowrap;
   padding: 16px;
   color: #fff;
-  animation: simpleFadein 1s;
+  animation: crostiniSimpleFadein 1s;
 }
 
 .crostini.crostini--show {
   visibility: visible;
-  animation: fadein 0.5s, expand 0.5s 0.5s, stay 5s 1s, shrink 0.5s 6s, fadeout 0.5s 6.5s;
+  animation: crostiniFadein 0.5s, crostiniExpand 0.5s 0.5s, crostiniStay 5s 1s, crostiniShrink 0.5s 6s, crostiniFadeout 0.5s 6.5s;
 }
 
 /* ERROR STYLES */
@@ -83,66 +83,52 @@ let crostiniStyles = `
   background-color: #c41f33;
 }
 
-.crostini.crostini--error .crostini__close-icon {
-  background-color: #b50a1e;
-}
-
-.crostini.crostini--error .crostini__close-icon:hover {
-  background-color: #9d091a;
-}
-
 .crostini.crostini--error .crostini__close-icon:hover:before, .crostini.crostini--error .crostini__close-icon:hover:after {
   opacity: 1;
 }
 
-.crostini.crostini--error .crostini__close-icon:before {
-  background-color: #fff;
-}
-
-.crostini.crostini--error .crostini__close-icon:after {
-  background-color: #fff;
-}
-
-@keyframes simpleFadein {
+@keyframes crostiniSimpleFadein {
   0% {opacity: 0;}
   90% {opacity: 0;}
   100% {opacity: 1;}
 }
 
-@keyframes simpleFadeout {
+@keyframes crostiniSimpleFadeout {
   0% {opacity: 1;}
   70% {opacity: 0;}
   100% {opacity: 0;}
 }
 
-@keyframes fadein {
+@keyframes crostiniFadein {
   from {bottom: 0; opacity: 0;}
   to {bottom: 30px; opacity: 1;}
 }
 
-@keyframes expand {
+@keyframes crostiniExpand {
   from {min-width: 50px}
   to {min-width: 360px}
 }
 
-@keyframes stay {
+@keyframes crostiniStay {
   from {min-width: 360px}
   to {min-width: 360px}
 }
 
-@keyframes shrink {
+@keyframes crostiniShrink {
   from {min-width: 360px;} 
   to {min-width: 50px;}
 }
 
-@keyframes fadeout {
+@keyframes crostiniFadeout {
   from {bottom: 30px; opacity: 1;}
   to {bottom: 60px; opacity: 0;}
 }
 </style>
 `;
 
-document.body.insertAdjacentHTML("beforeend", crostiniStyles);
+if (!document.querySelector(".crostini-styles")) {
+  document.body.insertAdjacentHTML("beforeend", crostiniStyles);
+}
 
 // main function:
 // pop up a toast notification
@@ -152,18 +138,33 @@ function crostini (msg, options) {
     return;
   }
 
-  let extraClasses = [];
-  if (options && options.type === "error") {
-    extraClasses.push("crostini--error");
-  }
-
   isCrostiniActivated = true;
 
-  let crostiniHtml = `<div class="crostini crostini--show ${extraClasses.join(' ')}"><div class="crostini__desc">${msg}</div><div class="crostini__close-icon"></div></div>`;
-  document.body.insertAdjacentHTML("beforeend", crostiniHtml);
-  var crostiniElem = document.querySelector(".crostini");
+  var crostiniHtml = `<div class="crostini crostini--show"><div class="crostini__desc">${msg}</div><div class="crostini__close-icon"></div></div>`;
+  var tempElem = document.createElement('div');
+  tempElem.innerHTML = crostiniHtml;
+  var crostiniElem = tempElem.firstChild;
+
+  if (options) {
+    if (options.type === "error") {
+      crostiniElem.classList.add("crostini--error");
+    }
+
+    if (options.slideInFromTop) {
+      crostiniElem.classList.add("crostini--top");
+    }
+
+    if (options.backgroundColor) {
+      crostiniElem.style.backgroundColor = options.backgroundColor;
+    }
+
+    if (options.textColor) {
+      crostiniElem.style.color = options.textColor;
+    }
+  }
 
   crostiniElem.addEventListener("animationend", onAnimationEnd);
+  document.body.appendChild(crostiniElem);
 }
 
 // crostini close button event listener
@@ -187,7 +188,7 @@ function removeCrostiniElement () {
 }
 
 function onAnimationEnd (event) {
-  if (event.animationName === "fadeout") {
+  if (event.animationName === "crostiniFadeout") {
     removeCrostiniElement();
   }
 }
