@@ -2,6 +2,10 @@
 var isCrostiniActivated = false;
 var crostiniStyles = `
 <style class="crostini-styles">
+.crostini, .crostini * {
+  box-sizing: border-box;
+}
+
 .crostini {
   position: fixed;
   z-index: 1;
@@ -23,10 +27,20 @@ var crostiniStyles = `
   line-height: 1;
 }
 
+.crostini--top {
+  top: 30px;
+  bottom: auto;
+}
+
+.crostini.crostini--show.crostini--top {
+  visibility: visible;
+  animation: crostiniFadeinTop 0.5s, crostiniExpand 0.5s 0.5s, crostiniStay 5s 1s, crostiniShrink 0.5s 6s, crostiniFadeoutBottom 0.5s 6.5s;
+}
+
 .crostini .crostini__close-icon {
   position: relative;
   width: 50px;
-  height: 50px;
+  height: 100%;
   margin-left: auto;
   cursor: pointer;
   border-left: 1px solid rgba(255,255,255,.18);
@@ -40,10 +54,11 @@ var crostiniStyles = `
 .crostini .crostini__close-icon:before {
   position: absolute;
   content: '';
-  top: 24px;
-  left: 13px;
+  top: 50%;
+  left: 50%;
   width: 26px;
   height: 2px;
+  margin: -1px 0 0 -13px;
   transform: rotate(-45deg);
   background-color: rgba(255,255,255,.85);
 }
@@ -51,10 +66,11 @@ var crostiniStyles = `
 .crostini .crostini__close-icon:after {
   position: absolute;
   content: '';
-  top: 24px;
-  left: 13px;
+  top: 50%;
+  left: 50%;
   width: 26px;
   height: 2px;
+  margin: -1px 0 0 -13px;
   transform: rotate(45deg);
   background-color: rgba(255,255,255,.85);
 }
@@ -64,12 +80,18 @@ var crostiniStyles = `
 }
 
 .crostini .crostini__desc {
+  display: flex;
+  align-items: center;
   max-width: calc(100% - 50px);
   overflow: hidden;
   white-space: nowrap;
-  padding: 16px;
-  color: #fff;
+  padding: 0px 16px;
   animation: crostiniSimpleFadein 1s;
+}
+
+.crostini .crostini__desc-inner {
+  position: relative;
+  top: -1px;
 }
 
 .crostini.crostini--show {
@@ -104,6 +126,11 @@ var crostiniStyles = `
   to {bottom: 30px; opacity: 1;}
 }
 
+@keyframes crostiniFadeinTop {
+  from {top: 0; opacity: 0;}
+  to {top: 30px; opacity: 1;}
+}
+
 @keyframes crostiniExpand {
   from {min-width: 50px}
   to {min-width: 360px}
@@ -123,6 +150,11 @@ var crostiniStyles = `
   from {bottom: 30px; opacity: 1;}
   to {bottom: 60px; opacity: 0;}
 }
+
+@keyframes crostiniFadeoutBottom {
+  from {top: 30px; opacity: 1;}
+  to {top: 60px; opacity: 0;}
+}
 </style>
 `;
 
@@ -140,7 +172,7 @@ function crostini (msg, options) {
 
   isCrostiniActivated = true;
 
-  var crostiniHtml = `<div class="crostini crostini--show"><div class="crostini__desc">${msg}</div><div class="crostini__close-icon"></div></div>`;
+  var crostiniHtml = `<div class="crostini crostini--show"><div class="crostini__desc"><div class="crostini__desc-inner">${msg}</div></div><div class="crostini__close-icon"></div></div>`;
   var tempElem = document.createElement('div');
   tempElem.innerHTML = crostiniHtml;
   var crostiniElem = tempElem.firstChild;
@@ -160,6 +192,11 @@ function crostini (msg, options) {
 
     if (options.textColor) {
       crostiniElem.style.color = options.textColor;
+    }
+
+    if (options.customCss) {
+      var stylesString = crostiniElem.getAttribute("style") || "";
+      crostiniElem.setAttribute("style", stylesString + options.customCss);
     }
   }
 
@@ -188,7 +225,7 @@ function removeCrostiniElement () {
 }
 
 function onAnimationEnd (event) {
-  if (event.animationName === "crostiniFadeout") {
+  if (event.animationName === "crostiniFadeout" || event.animationName === "crostiniFadeoutBottom") {
     removeCrostiniElement();
   }
 }
