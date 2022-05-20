@@ -8,7 +8,7 @@ var crostiniStyles = `
 
 .crostini {
   position: fixed;
-  z-index: 10000;
+  z-index: 999999;
   left: 0;
   right:0;
   bottom: 30px;
